@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player_headbob
   holder: {fileID: 8975016390872846690}
   startpos: {x: 0, y: 1.15, z: 0}
-  radius: 0.015
+  radius: 0.007
   freq: 4.16
   smoothness: 9.81
 --- !u!1 &1045387005486895032
@@ -61,9 +61,12 @@ GameObject:
   - component: {fileID: 7969615773084187472}
   - component: {fileID: 2208781683719885214}
   - component: {fileID: 4332605844088597536}
+  - component: {fileID: 859112341584329977}
+  - component: {fileID: 1939306003070251737}
+  - component: {fileID: 2422767389168101864}
   m_Layer: 0
   m_Name: _First Person Controller_
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,6 +131,63 @@ MonoBehaviour:
   movement_speed: 4.03
   fallmultiplier: -0.05
   what_is_movement_input: {fileID: -1680190386980627800, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
+--- !u!114 &859112341584329977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045387005486895032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1f291fbaceef94db701f8415e9eb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_CastInteraction
+  player_camera: {fileID: 0}
+  what_is_interaction_input: {fileID: 1781555164194001046, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
+  what_is_interaction_layer:
+    serializedVersion: 2
+    m_Bits: 40
+  timer_reached:
+    m_PersistentCalls:
+      m_Calls: []
+  interaction_max_timer: 1
+  elapsed_timer: 0
+  <castlength>k__BackingField: 2
+--- !u!114 &1939306003070251737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045387005486895032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ce3ea84560b7d46896577dc3706408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_current_interactable_target
+  main: {fileID: 0}
+  objects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selected: {fileID: 0}
+--- !u!114 &2422767389168101864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045387005486895032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82fe38d5a5122d46a0506dc16ebc642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_Handler
+  <pmovement>k__BackingField: {fileID: 4332605844088597536}
+  <pcasting>k__BackingField: {fileID: 859112341584329977}
+  <pheadbob>k__BackingField: {fileID: 9135837250943715213}
+  <pvisibleobjects_detection>k__BackingField: {fileID: 1939306003070251737}
 --- !u!1 &5185786994398997258
 GameObject:
   m_ObjectHideFlags: 0
