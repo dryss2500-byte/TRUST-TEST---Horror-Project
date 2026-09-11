@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +14,7 @@ public class Player_CastInteraction : MonoBehaviour
     [Header("outros")]
     [field: SerializeField] public Ray ray { get; private set; }
     public UnityEvent timer_reached;
+    [SerializeField]
     private bool is_interaction_interval = false;
     [SerializeField] private float interaction_max_timer, elapsed_timer;
     [field: SerializeField] public float castlength { get; private set; }
@@ -37,7 +39,8 @@ public class Player_CastInteraction : MonoBehaviour
         {
             Debug.Log("attempt interacting");
             handle_castinteraction(player_camera);
-            StartCoroutine(elapsed_interaction_timer());
+            StartCoroutine(elapsed_interaction_timer(true));
+            StartCoroutine(check_interaction());
             yield break;
         }
 
@@ -45,20 +48,38 @@ public class Player_CastInteraction : MonoBehaviour
 
     IEnumerator new_input_CO()
     {
-        while (!Keyboard.current.eKey.wasPressedThisFrame) yield return null;
-    }
-    IEnumerator elapsed_interaction_timer()
-    {
-        is_interaction_interval = true;
-        while (is_interaction_interval && elapsed_timer < interaction_max_timer) { elapsed_timer += Time.deltaTime;
-            yield return new WaitForSeconds(0.01f);
+        while (!Keyboard.current.eKey.wasPressedThisFrame || is_interaction_interval)
+        {
+            yield return null;
         }
-        if (elapsed_timer >= interaction_max_timer) {
-            timer_reached?.Invoke();
-            elapsed_timer = 0f;
-            is_interaction_interval = false;
-            yield break;
-                }
+    }
+    IEnumerator elapsed_interaction_timer(bool fromnonhit)
+    {
+        if (!fromnonhit)
+        {
+            yield return null;
+        }
+        else
+        {
+
+
+            is_interaction_interval = true;
+            while (is_interaction_interval && elapsed_timer < interaction_max_timer)
+            {
+                elapsed_timer += Time.deltaTime;
+                yield return new WaitForSeconds(0.01f);
+            }
+            if (elapsed_timer >= interaction_max_timer)
+            {
+                timer_reached?.Invoke();
+                elapsed_timer = 0f;
+                is_interaction_interval = false;
+                yield break;
+            }
+
+
+
+        }
     }
 
     void handle_castinteraction(Transform cam_obj)
@@ -70,29 +91,28 @@ public class Player_CastInteraction : MonoBehaviour
         from_raycast(out hit);
     }
 
-    public (bool, RaycastHit) from_raycast (out RaycastHit hit)
+    public RaycastHit from_raycast (out RaycastHit hit)
     {
         if (Physics.Raycast(ray, out hit, castlength, what_is_interaction_layer))
         {
-            bool flowControl = hit_check(hit);
-            if (!flowControl)
-            {
-                return (false, hit);
-            }
-        }
 
-        return (true, hit);
+            Debug.Log(hit_check(hit));
+        }
+        return hit;
+
     }
 
-    private static bool hit_check(RaycastHit hit)
+    private bool hit_check(RaycastHit hit)
     {
         if (hit.collider.gameObject == null) return false;
         Debug.Log(hit);
         IInteractable itf;
         bool find_interface_attempt = hit.collider.gameObject.TryGetComponent<IInteractable>(out itf);
         if (!find_interface_attempt) return false;
+        if (find_interface_attempt) Destroy(hit.collider.gameObject);
         itf = hit.collider.GetComponent<IInteractable>();
         itf.object_Interact();
+        StartCoroutine(elapsed_interaction_timer(false));
         return true;
     }
 }

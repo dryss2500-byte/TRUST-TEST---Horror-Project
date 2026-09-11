@@ -13,7 +13,7 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
     void IInteractable.object_Interact()
     {
         if(interaction_enabled) this.Interacted();
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public virtual void Interacted()

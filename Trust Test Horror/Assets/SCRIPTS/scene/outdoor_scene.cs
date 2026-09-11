@@ -11,6 +11,8 @@ public class outdoor_scene : MonoBehaviour
 
     [field: SerializeField] public Collider jp1trigger { get; private set; }
 
+    [field: SerializeField] public Collider jp2trigger { get; private set; }
+
     private void Awake()
     {
         get_instance();
