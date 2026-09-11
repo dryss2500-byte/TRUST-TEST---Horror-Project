@@ -17,18 +17,14 @@ public class resetpref : MonoBehaviour
 
         once = !once;
 
-        if (scene == SceneManager.GetSceneAt(1)) //outdoor scene
-
-        {
-            reset_prefs(false);
-        }
+        if (scene == SceneManager.GetSceneAt(1)) reset_prefs(false); //outdoor scene 
     }
 
     private static void reset_prefs(bool settings)
     {
         PlayerPrefs.SetInt("apparition 1", 0);
         PlayerPrefs.SetInt("has 1section completed", 0);
-        PlayerPrefs.SetInt("skinwalker apparition", 0);
+        PlayerPrefs.SetInt("apparition 2", 0);
         /////
         ///
 

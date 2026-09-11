@@ -11,6 +11,7 @@ public class Player_CastInteraction : MonoBehaviour
     public InputActionReference what_is_interaction_input;
     [field: SerializeField] private LayerMask what_is_interaction_layer;
     [Header("outros")]
+    [field: SerializeField] public Ray ray { get; private set; }
     public UnityEvent timer_reached;
     private bool is_interaction_interval = false;
     [SerializeField] private float interaction_max_timer, elapsed_timer;
@@ -64,15 +65,23 @@ public class Player_CastInteraction : MonoBehaviour
     {
         Debug.Log("Player : Interaction Input");
 
-        Ray ray = new Ray(cam_obj.transform.position, cam_obj.transform.forward);
+        ray = new Ray(cam_obj.transform.position, cam_obj.transform.forward);
         RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(ray, out hit, castlength, what_is_interaction_layer)){
+        from_raycast(out hit);
+    }
+
+    public (bool, RaycastHit) from_raycast (out RaycastHit hit)
+    {
+        if (Physics.Raycast(ray, out hit, castlength, what_is_interaction_layer))
+        {
             bool flowControl = hit_check(hit);
             if (!flowControl)
             {
-                return;
+                return (false, hit);
             }
         }
+
+        return (true, hit);
     }
 
     private static bool hit_check(RaycastHit hit)
