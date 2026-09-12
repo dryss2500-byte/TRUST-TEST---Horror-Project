@@ -1,14 +1,17 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class char_dialogue_entry : MonoBehaviour
 {
     public static bool freetoentry;
+    public static bool running;
     public static char_dialogue_entry instance;
     public Canvas user_interface_prefab;
     public Canvas current_valid_user_interface;
+    public static UnityEvent ue_pogressed;
 
 
     [Tooltip("utils")]
@@ -19,13 +22,7 @@ public class char_dialogue_entry : MonoBehaviour
         set_st_instance();
     }
 
-    private void Start()
-    {
-        //test
-        set_entries(true, "Where is my rivers cuomo", "YOU:");
-    }
-
-    public void set_entries(bool qmstart, string entry, string name)
+    public void set_entries(bool qmstart, string entry, string name, AudioClip writer)
     {
         subentry_st = entry;
         subname_st = name;
@@ -40,16 +37,18 @@ public class char_dialogue_entry : MonoBehaviour
         bool flow = current_valid_user_interface.TryGetComponent<dialogue_user_interface>(out user_interface_cs);
         Debug.Log(user_interface_cs);
         if (!flow) return;
-        StartCoroutine(typewriter_effect_co(user_interface_cs.tmpentry,user_interface_cs.tmpname,0.02f, true, user_interface_cs.background, user_interface_cs.tmp_paktc));
+        StartCoroutine(typewriter_effect_co(user_interface_cs.tmpentry,user_interface_cs.tmpname,.07f, true, user_interface_cs.background, user_interface_cs.tmp_paktc, writer));
 
 
 
     }
 
-    IEnumerator typewriter_effect_co(TMPro.TMP_Text tmp, TMPro.TMP_Text Ntmp, float typespeed, bool lastsection, Image background, TMPro.TMP_Text tmppackt)
+    IEnumerator typewriter_effect_co(TMPro.TMP_Text tmp, TMPro.TMP_Text Ntmp, float typespeed, bool lastsection, Image background, TMPro.TMP_Text tmppackt, AudioClip writer)
     {
+        running = true;
         tmppackt.enabled = false;
         Ntmp.text = subname_st;
+        if (subname_st == "YOU:") Ntmp.color = Color.HSVToRGB(124f, 252f, 255f, false);
         tmp.GetComponent<RectTransform>().sizeDelta = new Vector2(1250f, 120f);
         tmp.alignment = TMPro.TextAlignmentOptions.TopLeft;
 
@@ -61,6 +60,8 @@ public class char_dialogue_entry : MonoBehaviour
         {
 
             tmp.text += c;
+
+            _Audio_Manager_.manager.play_sfx(writer);
 
             if (tmp.text == subentry_st) filled = true;
 
@@ -87,9 +88,14 @@ public class char_dialogue_entry : MonoBehaviour
         yield return new WaitForSeconds(.5f); // anim length
         DestroyImmediate(current_valid_user_interface, true);
 
+        ue_pogressed?.Invoke();
 
 
 
+
+        running = false;
+
+        erase_values();
 
         yield break;
     }

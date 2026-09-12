@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1348467189352739924}
   - component: {fileID: 8432733942727438337}
+  - component: {fileID: 3485998973232354355}
   m_Layer: 3
   m_Name: gate
   m_TagString: Untagged
@@ -57,7 +58,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 750803529360603884}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 21.66635, y: 1.004, z: 11.07499}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -86,6 +87,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3485998973232354355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750803529360603884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5ae185b9014ab429d6dc616b1f7da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::gate_interaction
+  <interaction_enabled>k__BackingField: 0
+  <this_interaction_type>k__BackingField: 1
 --- !u!1 &3181103921280617059
 GameObject:
   m_ObjectHideFlags: 0

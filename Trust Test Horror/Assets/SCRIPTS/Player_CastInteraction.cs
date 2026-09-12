@@ -109,7 +109,6 @@ public class Player_CastInteraction : MonoBehaviour
         IInteractable itf;
         bool find_interface_attempt = hit.collider.gameObject.TryGetComponent<IInteractable>(out itf);
         if (!find_interface_attempt) return false;
-        if (find_interface_attempt) Destroy(hit.collider.gameObject);
         itf = hit.collider.GetComponent<IInteractable>();
         itf.object_Interact();
         StartCoroutine(elapsed_interaction_timer(false));

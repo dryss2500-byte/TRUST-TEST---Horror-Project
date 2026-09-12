@@ -7,7 +7,7 @@ public class outdoor_scene : MonoBehaviour
     [Header("UTILS")]
 
     [field: SerializeField] public baseinteractable crowbar { get; private set; }
-    [field: SerializeField] public baseinteractable gate { get; private set; }
+    [field: SerializeField] public gate_interaction gate { get; private set; }
 
     [field: SerializeField] public Collider jp1trigger { get; private set; }
 

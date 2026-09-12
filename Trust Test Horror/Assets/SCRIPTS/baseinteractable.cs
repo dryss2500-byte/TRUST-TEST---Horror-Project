@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class baseinteractable : InteractionObject
 {
     public override void Interacted()

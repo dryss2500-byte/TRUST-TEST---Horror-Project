@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public abstract class InteractionObject : MonoBehaviour, IInteractable
 {
-    [field: SerializeField] public bool interaction_enabled { get; private set; }
+    [field: SerializeField] protected bool interaction_enabled { get; set; }
 
     [field: SerializeField] public InteractionTypes.TYPE this_interaction_type { get; private set; }
 
@@ -12,6 +12,7 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
 
     void IInteractable.object_Interact()
     {
+        if (!interaction_enabled) return;
         if(interaction_enabled) this.Interacted();
         //throw new System.NotImplementedException();
     }
